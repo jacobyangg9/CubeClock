@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View } from 'react-native';
 
 const App = () => {
+  // State variables
   const [timerView, setTimerView] = useState('00:00.00'); // Displayed timer value
   const [cubingTimeStarted, setCubingTimeStarted] = useState(false); // Indicates if the timer is running
   const [cubingTimeStopped, setCubingTimeStopped] = useState(false); // Indicates if the timer has been stopped and reset is needed
@@ -9,15 +10,16 @@ const App = () => {
   const [solveNumber, setSolveNumber] = useState(0); // Tracks the number of solves
   const [isVisible, setIsVisible] = useState(true); // Controls the visibility of the stats view
   
+  // Refs to track time-related values
   const timeInMilliseconds = useRef(0); // Ref to track the elapsed time in milliseconds
   const startTimeRef = useRef(0); // Ref to store the starting time of the timer
   const timerInterval = useRef(null); // Ref to store the ID of the interval for clearing it later
 
+  // State for storing recorded times
   const [recordedTimes, setRecordedTimes] = useState([]); // Array to store recorded times
   const [averageTime, setAverageTime] = useState(); // State to store the average time
-
   
-  const [sessionStarted, setSessionStarted] = useState(false); // Tracks the sum of recorded times for averaging
+  const [sessionStarted, setSessionStarted] = useState(false); // Tracks if a session has started
 
   // Function to start the timer
   const startCubingTimer = () => {
@@ -27,7 +29,7 @@ const App = () => {
       startTimeRef.current = Date.now() - timeInMilliseconds.current; // Set the start time, accounting for any paused time
       timerInterval.current = setInterval(updateTime, 10); // Start an interval to update the timer every 10ms
 
-      setSessionStarted(true);
+      setSessionStarted(true); // Mark session as started
   
       setSolveNumber((prevSolveNumber) => prevSolveNumber + 1); // Increment solve number
 
@@ -43,7 +45,6 @@ const App = () => {
     timeInMilliseconds.current = elapsed; // Update the elapsed time in the ref
     setTimerView(formatTime(elapsed)); // Update the displayed timer with the formatted time
   };
-
 
   // Function to format the elapsed time into a string (MM:SS.mm)
   const formatTime = (time) => {
@@ -80,10 +81,11 @@ const App = () => {
     }
   };
 
+  // useEffect hook to update average time when recordedTimes changes
   useEffect(() => { 
     if (recordedTimes.length > 0) {
       const sum = recordedTimes.reduce((acc, time) => acc + time, 0); // Sum the recorded times
-      const newAverage = sum / recordedTimes.length;
+      const newAverage = sum / recordedTimes.length; // Calculate new average time
       setAverageTime(newAverage); // Update state
   
       console.log(`Updated averageTime: ${newAverage}`); // Log the correct updated average
@@ -92,9 +94,10 @@ const App = () => {
     }
   }, [recordedTimes]); // Runs whenever recordedTimes updates
   
-  const generateScramble = (length = 20) => {
+  // Function to generate a scramble sequence
+  const generateScramble = (length = 22) => {
     const moves = ["U", "D", "L", "R", "F", "B"];
-    const modifiers = ["", "'", "2"]
+    const modifiers = ["", "'", "2"];
     let scramble = [];
     let lastMove = "";
 
@@ -107,11 +110,10 @@ const App = () => {
       lastMove = move;
       const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
       scramble.push(move + modifier);
-
     }
 
-    return scramble.join(" ");
-  }
+    return scramble.join(" "); // Return scramble as a string
+  };
   
   return (
     <SafeAreaView style={styles.container}>
@@ -119,23 +121,15 @@ const App = () => {
         onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
       >
         <View style={styles.scrambleWrapper}>
-          <Text style={[
-              styles.scrambleText,
-              { opacity: isVisible ? '1' : '0' }, // Dynamically controls visibility of the stats view
-              ]}>{generateScramble()}</Text>
-          </View>
+          <Text style={[styles.scrambleText, { opacity: isVisible ? '1' : '0' }]}>{generateScramble()}</Text>
+        </View>
         <View style={styles.startTimer}>
           <View style={styles.timerWrapper}>
             <View style={{ width: '90%', alignItems: 'center' }}>
               <Text style={styles.timerText}>{timerView}</Text>
             </View>
-             
           </View>
-
-          <View style={[
-            styles.timeDescriptionsWrapper,
-            { opacity: isVisible ? '1' : '0' }, // Dynamically controls visibility of the stats view
-          ]}>
+          <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? '1' : '0' }]}> 
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
               <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao5: --</Text>
@@ -146,6 +140,8 @@ const App = () => {
     </SafeAreaView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
