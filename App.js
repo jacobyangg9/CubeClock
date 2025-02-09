@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image } from 'react-native';
+
+import trashIcon from './assets/trash.png';
+import homeIcon from './assets/home2.png';
 
 const App = () => {
   // State variables
@@ -135,6 +138,21 @@ const App = () => {
               <Text style={styles.timeDescriptions}>ao5: --</Text>
               <Text style={styles.timeDescriptions}>ao12: --</Text>
           </View>
+
+          <View style={styles.buttonWrapper}>
+            <TouchableOpacity>
+              <View style={[styles.trashWrapper, { opacity: isVisible ? '1' : '0' }]}>
+                <Image source={trashIcon} style={styles.trash}></Image>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <View style={[styles.homeWrapper, { opacity: isVisible ? '1': '0' }]}>
+                <Image source={homeIcon} style={styles.home}></Image>
+              </View>
+            </TouchableOpacity>
+          </View>
+          
         </View>
       </TouchableOpacity>
     </SafeAreaView>
@@ -177,7 +195,7 @@ const styles = StyleSheet.create({
   },
   timeDescriptionsWrapper: {
     alignItems: 'center', // Centers the stats text horizontally
-    marginBottom: '80%', // Adds margin at the bottom for spacing
+    marginBottom: '70%', // Adds margin at the bottom for spacing
   },
   scrambleWrapper: {
     top: 50, // Adjust the position from the top as needed
@@ -192,6 +210,46 @@ const styles = StyleSheet.create({
   scrambleText: {
     fontSize: '20',
     textAlign: 'center',
+  },
+
+  trash: {
+    width: 35,
+    height: 35,
+  },
+
+  trashWrapper: {
+    backgroundColor: 'hsl(0 0% 92%)',
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    textAlign: 'center',
+    borderRadius: 40,
+    alignItems: 'center',
+    bottom: 30,
+    right: -250,
+    zIndex: 100,
+  },
+
+  home: {
+    width: 35, 
+    height: 35,
+  },
+
+  homeWrapper: {
+    backgroundColor: 'hsl(0 0% 92%)',
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    textAlign: 'center',
+    borderRadius: 40,
+    alignItems: 'center',
+    bottom: 30,
+    right: -100,
+    zIndex: 100,
+  },
+
+  buttonWrapper: {
+    flexDirection: 'row',
   }
 });
 
