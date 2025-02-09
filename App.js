@@ -140,6 +140,13 @@ const App = () => {
           </View>
 
           <View style={styles.buttonWrapper}>
+
+            <TouchableOpacity>
+                <View style={[styles.homeWrapper, { opacity: isVisible ? '1': '0' }]}>
+                 <Image source={homeIcon} style={styles.home}></Image>
+               </View>
+            </TouchableOpacity>
+            
             <TouchableOpacity>
               <View style={[styles.trashWrapper, { opacity: isVisible ? '1' : '0' }]}>
                 <Image source={trashIcon} style={styles.trash}></Image>
@@ -147,8 +154,8 @@ const App = () => {
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <View style={[styles.homeWrapper, { opacity: isVisible ? '1': '0' }]}>
-                <Image source={homeIcon} style={styles.home}></Image>
+              <View style={[styles.addedTimeWrapper, { opacity: isVisible ? '1': '0' }]}>
+                <Text style={styles.addedTime}>+2</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -226,8 +233,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: 'center',
     bottom: 30,
-    right: -250,
     zIndex: 100,
+    marginHorizontal: 20,
   },
 
   home: {
@@ -244,13 +251,34 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: 'center',
     bottom: 30,
-    right: -100,
     zIndex: 100,
   },
 
   buttonWrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    
+  },
+
+addedTimeWrapper: {
+  backgroundColor: 'hsl(0 0% 92%)',
+  width: 60,
+  height: 60,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 40,
+  bottom: 30, // Keep it at the bottom
+  zIndex: 100,
+},
+
+
+  addedTime: {
+    fontSize: 25,
+    fontWeight: 'bold',
   }
+
 });
 
 export default App;
