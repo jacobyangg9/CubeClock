@@ -4,11 +4,11 @@
     "slug": "CubeClock",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "/Users/jacob/CubeNewClock/assets/cubeClockAppLogo.jpg",
+    "icon": "/Users/jacob/CubeNewClock/assets/cubeClockLogo.jpg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "/Users/jacob/CubeNewClock/assets/cubeClockAppLogo.jpg",
+      "image": "/Users/jacob/CubeNewClock/assets/cubeClockLogo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,12 +17,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "/Users/jacob/CubeNewClock/assets/cubeClockAppLogo.jpg",
+        "foregroundImage": "/Users/jacob/CubeNewClock/assets/cubeClockLogo.jpg",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "/Users/jacob/CubeNewClock/assets/cubeClockAppLogo.jpg"
+      "favicon": "/Users/jacob/CubeNewClock/assets/cubeClockLogo.jpg"
     }
   }
 }

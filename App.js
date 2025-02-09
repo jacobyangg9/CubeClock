@@ -92,7 +92,26 @@ const App = () => {
     }
   }, [recordedTimes]); // Runs whenever recordedTimes updates
   
-  
+  const generateScramble = (length = 20) => {
+    const moves = ["U", "D", "L", "R", "F", "B"];
+    const modifiers = ["", "'", "2"]
+    let scramble = [];
+    let lastMove = "";
+
+    for (let i = 0; i < length; i++) {
+      let move;
+      do {
+        move = moves[Math.floor(Math.random() * moves.length)];
+      } while (move === lastMove); // Prevent repeating the same face
+
+      lastMove = move;
+      const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
+      scramble.push(move + modifier);
+
+    }
+
+    return scramble.join(" ");
+  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -103,7 +122,7 @@ const App = () => {
           <Text style={[
               styles.scrambleText,
               { opacity: isVisible ? '1' : '0' }, // Dynamically controls visibility of the stats view
-              ]}>L' F' R' D2 R B2 F2 R2 B2 R B2 R U2 R2 F U' L F' U2 B2 U2</Text>
+              ]}>{generateScramble()}</Text>
           </View>
         <View style={styles.startTimer}>
           <View style={styles.timerWrapper}>
@@ -119,8 +138,8 @@ const App = () => {
           ]}>
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
               <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
-              <Text style={styles.timeDescriptions}>ao5:</Text>
-              <Text style={styles.timeDescriptions}>ao12:</Text>
+              <Text style={styles.timeDescriptions}>ao5: --</Text>
+              <Text style={styles.timeDescriptions}>ao12: --</Text>
           </View>
         </View>
       </TouchableOpacity>
