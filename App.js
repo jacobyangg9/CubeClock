@@ -122,9 +122,10 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
+        style={{ width: '100%', flex: 1 }}
       >
         <View style={styles.scrambleWrapper}>
-          <Text style={[styles.scrambleText, { opacity: isVisible ? '1' : '0' }]}>{generateScramble()}</Text>
+          <Text style={[styles.scrambleText, { opacity: isVisible ? 1 : 0 }]}>{generateScramble()}</Text>
         </View>
         <View style={styles.startTimer}>
           <View style={styles.timerWrapper}>
@@ -132,7 +133,7 @@ const App = () => {
               <Text style={styles.timerText}>{timerView}</Text>
             </View>
           </View>
-          <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? '1' : '0' }]}> 
+          <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
               <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao5: --</Text>
@@ -142,19 +143,19 @@ const App = () => {
           <View style={styles.buttonWrapper}>
 
             <TouchableOpacity>
-                <View style={[styles.homeWrapper, { opacity: isVisible ? '1': '0' }]}>
+                <View style={[styles.homeWrapper, { opacity: isVisible ? 1: 0 }]}>
                  <Image source={homeIcon} style={styles.home}></Image>
                </View>
             </TouchableOpacity>
             
             <TouchableOpacity>
-              <View style={[styles.trashWrapper, { opacity: isVisible ? '1' : '0' }]}>
+              <View style={[styles.trashWrapper, { opacity: isVisible ? 1 : 0 }]}>
                 <Image source={trashIcon} style={styles.trash}></Image>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <View style={[styles.addedTimeWrapper, { opacity: isVisible ? '1': '0' }]}>
+              <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
                 <Text style={styles.addedTime}>+2</Text>
               </View>
             </TouchableOpacity>
@@ -182,19 +183,20 @@ const styles = StyleSheet.create({
     zIndex: 0, // Ensures the timer view is behind other elements if needed
   },
   timerWrapper: {
-    alignItems: 'center', // Centers the timer text horizontally
-    justifyContent: 'center', // Centers the timer text vertically
-    flex: 1, // Allows flexible growth to fill the screen
-    transform: 'translateY(60%)', // Moves the timer down slightly
-    marginTop: '20%', // Adds margin at the top
-    paddingBottom: '10%', // Adds padding at the bottom
-    width: '90%',
+    alignItems: 'center', // Centers the timer horizontally
+    justifyContent: 'center', // Centers the timer vertically
+    flex: 1, // Takes up available space and ensures centering
+    width: '100%', // Ensures it spans the full width
+    marginTop: '50%', // Adjust this value as needed
+    paddingBottom: '10%', // Adjust if necessary
   },
+
   timerText: {
-    zIndex: 5, // Ensures the timer text is on top of other elements
+    zIndex: 500, // Ensures the timer text is on top of other elements
     fontSize: 75, // Large font size for the timer text
     fontFamily: 'System', // font for the timer text
     fontVariant: ['tabular-nums'], // Ensures digits take up equal space
+    color: 'black',
   },
   timeDescriptions: {
     fontSize: 25, // Font size for the descriptive stats
@@ -202,10 +204,10 @@ const styles = StyleSheet.create({
   },
   timeDescriptionsWrapper: {
     alignItems: 'center', // Centers the stats text horizontally
-    marginBottom: '70%', // Adds margin at the bottom for spacing
+    marginBottom: '60%', // Adds margin at the bottom for spacing
   },
   scrambleWrapper: {
-    top: 50, // Adjust the position from the top as needed
+    top: 70, // Adjust the position from the top as needed
     position: 'absolute',
     width: '90%', // Adjust width to be responsive
     alignSelf: 'center', // Centers the scramble wrapper horizontally
@@ -215,7 +217,7 @@ const styles = StyleSheet.create({
 },
 
   scrambleText: {
-    fontSize: '20',
+    fontSize: 20,
     textAlign: 'center',
   },
 
