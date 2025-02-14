@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "CubeClock",
-    "slug": "CubeClock",
+    "slug": "cube-clock",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/officialAppLogo.jpg",
@@ -23,6 +23,12 @@
     },
     "web": {
       "favicon": "./assets/officialAppLogo.jpg"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4569b10d-9b00-4ae4-95f2-4616724f2dfa"
+      }
+    },
+    "owner": "jacob.yangg9"
   }
 }

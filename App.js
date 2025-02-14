@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert } from 'react-native';
 
 import trashIcon from './assets/trash.png';
 import homeIcon from './assets/home2.png';
@@ -84,7 +84,63 @@ const App = () => {
     }
   };
 
-  // useEffect hook to update average time when recordedTimes changes
+  const deleteTimePressed = () => {
+    Alert.alert(
+      'Delete Time?',
+      'This action cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Delete Time', onPress: () => deleteTime(), style: 'destructive' },
+      ]
+    );
+  }
+
+  const deleteTime = () => {
+    setRecordedTimes((prevTimes) => {
+      const updatedTimes = [...prevTimes];
+      updatedTimes.pop();
+  
+      const latestTime = updatedTimes[updatedTimes.length - 1];
+      setTimerView(formatTime(latestTime || 0));
+
+      setSolveNumber(prevSolveNumber => prevSolveNumber - 1);
+  
+      return updatedTimes;
+    });
+  };
+
+  const addTwoSecondsPressed = () => {
+    Alert.alert(
+      'Add 2 Seconds?',
+      'This action cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Add', onPress: () => addTwoSeconds(), style: 'default'},
+      ]
+    );
+  }
+
+  const addTwoSeconds = () => {
+    setRecordedTimes((prevTimes) => {
+      const updatedTimes = [...prevTimes];
+  
+      if (updatedTimes.length === 0) {
+        return updatedTimes; // Safety check if no times exist
+      }
+  
+      // Add 2 seconds (2000ms) to the last time
+      updatedTimes[updatedTimes.length - 1] += 2000;
+  
+      // Update displayed time to match the new adjusted time
+      setTimerView(formatTime(updatedTimes[updatedTimes.length - 1]));
+  
+      return updatedTimes;
+    });
+  };
+  
+  
+
+  // useEffect hook to update average ltime when recordedTimes changes
   useEffect(() => { 
     if (recordedTimes.length > 0) {
       const sum = recordedTimes.reduce((acc, time) => acc + time, 0); // Sum the recorded times
@@ -96,7 +152,7 @@ const App = () => {
       setAverageTime(0);
     }
   }, [recordedTimes]); // Runs whenever recordedTimes updates
-  
+
   // Function to generate a scramble sequence
   const generateScramble = (length = 22) => {
     const moves = ["U", "D", "L", "R", "F", "B"];
@@ -117,6 +173,12 @@ const App = () => {
 
     return scramble.join(" "); // Return scramble as a string
   };
+
+  const doNothing = () => {
+
+  }
+
+   
   
   return (
     <SafeAreaView style={styles.container}>
@@ -140,6 +202,7 @@ const App = () => {
               <Text style={styles.timeDescriptions}>ao12: --</Text>
           </View>
 
+
           <View style={styles.buttonWrapper}>
 
             <TouchableOpacity>
@@ -148,18 +211,20 @@ const App = () => {
                </View>
             </TouchableOpacity>
             
-            <TouchableOpacity>
+            <TouchableOpacity onPress={cubingTimeStarted ? doNothing : deleteTimePressed}>
               <View style={[styles.trashWrapper, { opacity: isVisible ? 1 : 0 }]}>
                 <Image source={trashIcon} style={styles.trash}></Image>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={cubingTimeStarted ? doNothing : addTwoSecondsPressed}>
               <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
                 <Text style={styles.addedTime}>+2</Text>
               </View>
             </TouchableOpacity>
           </View>
+
+
           
         </View>
       </TouchableOpacity>
