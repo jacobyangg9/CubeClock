@@ -211,13 +211,31 @@ const App = () => {
                </View>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={cubingTimeStarted ? doNothing : deleteTimePressed}>
+            <TouchableOpacity onPressIn={() => {
+              if (cubingTimeStarted) {
+                doNothing();
+              } else if (sessionStarted) {
+                deleteTimePressed();
+              } else {
+                doNothing();
+              }
+            }}
+            >
               <View style={[styles.trashWrapper, { opacity: isVisible ? 1 : 0 }]}>
                 <Image source={trashIcon} style={styles.trash}></Image>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={cubingTimeStarted ? doNothing : addTwoSecondsPressed}>
+            <TouchableOpacity onPress={() => {
+              if (cubingTimeStarted) {
+                doNothing();
+              } else if (sessionStarted) {
+                addTwoSecondsPressed();
+              } else {
+                doNothing();
+              }
+            }}
+                >
               <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
                 <Text style={styles.addedTime}>+2</Text>
               </View>
