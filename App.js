@@ -153,6 +153,14 @@ const App = () => {
     }
   }, [recordedTimes]); // Runs whenever recordedTimes updates
 
+  useEffect(() => {
+    if (sessionStarted) {
+      if (solveNumber == 0) {
+        setSessionStarted(false);
+      }
+    }
+  }, [solveNumber])
+
   // Function to generate a scramble sequence
   const generateScramble = (length = 22) => {
     const moves = ["U", "D", "L", "R", "F", "B"];
