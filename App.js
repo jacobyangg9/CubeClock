@@ -84,6 +84,7 @@ const App = () => {
     }
   };
 
+  // Function when the delete button is clicked, to display the alert
   const deleteTimePressed = () => {
     Alert.alert(
       'Delete Time?',
@@ -95,36 +96,39 @@ const App = () => {
     );
   }
 
+  // Function to delete the last recorded time
   const deleteTime = () => {
-    setRecordedTimes((prevTimes) => {
-      const updatedTimes = [...prevTimes];
-      updatedTimes.pop();
+    setRecordedTimes((prevTimes) => { // Update the recorded times array
+      const updatedTimes = [...prevTimes]; // Copy the recorded times array
+      updatedTimes.pop(); // Remove the last recorded time
   
-      const latestTime = updatedTimes[updatedTimes.length - 1];
-      setTimerView(formatTime(latestTime || 0));
+      const latestTime = updatedTimes[updatedTimes.length - 1]; // Get the latest time
+      setTimerView(formatTime(latestTime || 0)); // Update the displayed time to the latest time
 
-      setSolveNumber(prevSolveNumber => prevSolveNumber - 1);
+      setSolveNumber(prevSolveNumber => prevSolveNumber - 1); // Decrement solve number
   
-      return updatedTimes;
+      return updatedTimes; // Return the updated array
     });
   };
 
-  const addTwoSecondsPressed = () => {
-    Alert.alert(
+  // Function when the +2 button is clicked, to display the alert
+  const addTwoSecondsPressed = () => { 
+    Alert.alert( // Show an alert to confirm the action
       'Add 2 Seconds?',
       'This action cannot be undone.',
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Add', onPress: () => addTwoSeconds(), style: 'default'},
+        { text: 'Cancel', style: 'cancel' }, // Cancel the action
+        { text: 'Add', onPress: () => addTwoSeconds(), style: 'default'}, //  Add 2 seconds
       ]
     );
   }
 
-  const addTwoSeconds = () => {
-    setRecordedTimes((prevTimes) => {
-      const updatedTimes = [...prevTimes];
+  // Function to add 2 seconds to the last recorded time
+  const addTwoSeconds = () => { 
+    setRecordedTimes((prevTimes) => { // Update the recorded times array
+      const updatedTimes = [...prevTimes]; // Copy the recorded times array
   
-      if (updatedTimes.length === 0) {
+      if (updatedTimes.length === 0) { // Check if there are any recorded times
         return updatedTimes; // Safety check if no times exist
       }
   
@@ -134,7 +138,7 @@ const App = () => {
       // Update displayed time to match the new adjusted time
       setTimerView(formatTime(updatedTimes[updatedTimes.length - 1]));
   
-      return updatedTimes;
+      return updatedTimes; // Return the updated array
     });
   };
   
@@ -153,29 +157,30 @@ const App = () => {
     }
   }, [recordedTimes]); // Runs whenever recordedTimes updates
 
-  useEffect(() => {
-    if (sessionStarted) {
-      if (solveNumber == 0) {
-        setSessionStarted(false);
+  // useEffect hook to reset the session when the solve number changes
+  useEffect(() => { // Reset the session when the solve number reaches 0
+    if (sessionStarted) { 
+      if (solveNumber == 0) { 
+        setSessionStarted(false); // Mark the session as not started
       }
     }
-  }, [solveNumber])
+  }, [solveNumber]) // Runs whenever solveNumber updates
 
   // Function to generate a scramble sequence
   const generateScramble = (length = 22) => {
-    const moves = ["U", "D", "L", "R", "F", "B"];
-    const modifiers = ["", "'", "2"];
-    let scramble = [];
-    let lastMove = "";
+    const moves = ["U", "D", "L", "R", "F", "B"]; // List of possible moves
+    const modifiers = ["", "'", "2"]; // List of possible modifiers
+    let scramble = []; // Initialize an empty array to store the scramble
+    let lastMove = ""; // Initialize a variable to store the last move
 
-    for (let i = 0; i < length; i++) {
-      let move;
+    for (let i = 0; i < length; i++) { // Loop to generate the scramble
+      let move; // Initialize a variable to store the move
       do {
         move = moves[Math.floor(Math.random() * moves.length)];
       } while (move === lastMove); // Prevent repeating the same face
 
       lastMove = move;
-      const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
+      const modifier = modifiers[Math.floor(Math.random() * modifiers.length)]; // Select a random modifier
       scramble.push(move + modifier);
     }
 
