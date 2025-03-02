@@ -23,6 +23,9 @@ const App = () => {
   const [averageTime, setAverageTime] = useState(); // State to store the average time
   
   const [sessionStarted, setSessionStarted] = useState(false); // Tracks if a session has started
+  
+
+  const [ao5, setAo5] = useState(); // State to store the average of 5 times
 
   // Function to start the timer
   const startCubingTimer = () => {
@@ -137,9 +140,27 @@ const App = () => {
   
       // Update displayed time to match the new adjusted time
       setTimerView(formatTime(updatedTimes[updatedTimes.length - 1]));
+
+      // Recalculate ao5 when pressed
+      removeMinAndMax(updatedTimes);
   
       return updatedTimes; // Return the updated array
     });
+  };
+  
+  const removeMinAndMax = (times) => {
+    if (times.length < 5) return; // Ensure at least 5 solves before computing ao5
+  
+    let lastFiveTimes = times.slice(-5); // Get last 5 recorded times
+    let max = Math.max(...lastFiveTimes);
+    let min = Math.min(...lastFiveTimes);
+  
+    let filteredTimes = lastFiveTimes.filter(time => time !== max && time !== min);
+  
+    if (filteredTimes.length === 3) { // Should always be 3 values left
+      let sum = filteredTimes.reduce((acc, time) => acc + time, 0);
+      setAo5(formatTime(sum / 3)); // Divide by 3, since 2 values were removed
+    }
   };
   
   
@@ -163,8 +184,17 @@ const App = () => {
       if (solveNumber == 0) { 
         setSessionStarted(false); // Mark the session as not started
       }
+
+
     }
   }, [solveNumber]) // Runs whenever solveNumber updates
+
+  useEffect(() => {
+    if (sessionStarted && recordedTimes.length >= 5) {
+      removeMinAndMax(recordedTimes);
+    }
+  }, [recordedTimes]); // Runs whenever recordedTimes updates
+  
 
   // Function to generate a scramble sequence
   const generateScramble = (length = 22) => {
@@ -211,7 +241,7 @@ const App = () => {
           <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
               <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
-              <Text style={styles.timeDescriptions}>ao5: --</Text>
+              <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao12: --</Text>
           </View>
 
