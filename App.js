@@ -3,6 +3,7 @@ import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert } 
 
 import trashIcon from './assets/trash.png';
 import homeIcon from './assets/home2.png';
+import refreshIcon from './assets/refresh.png';
 
 const App = () => {
   // State variables
@@ -26,6 +27,7 @@ const App = () => {
   
 
   const [ao5, setAo5] = useState(); // State to store the average of 5 times
+  const [ao12, setAo12] = useState(); // State to store the average of 12 times
 
   // Function to start the timer
   const startCubingTimer = () => {
@@ -115,34 +117,28 @@ const App = () => {
   };
 
   // Function when the +2 button is clicked, to display the alert
-  const addTwoSecondsPressed = () => { 
+  const restartSessionPressed = () => { 
     Alert.alert( // Show an alert to confirm the action
-      'Add 2 Seconds?',
+      'Restart Session?',
       'This action cannot be undone.',
       [
         { text: 'Cancel', style: 'cancel' }, // Cancel the action
-        { text: 'Add', onPress: () => addTwoSeconds(), style: 'default'}, //  Add 2 seconds
+        { text: 'Restart', onPress: () => restartSession(), style: 'destructive'}, //  Add 2 seconds
       ]
     );
   }
 
   // Function to add 2 seconds to the last recorded time
-  const addTwoSeconds = () => { 
+  const restartSession = () => { 
     setRecordedTimes((prevTimes) => { // Update the recorded times array
       const updatedTimes = [...prevTimes]; // Copy the recorded times array
   
-      if (updatedTimes.length === 0) { // Check if there are any recorded times
-        return updatedTimes; // Safety check if no times exist
-      }
-  
-      // Add 2 seconds (2000ms) to the last time
-      updatedTimes[updatedTimes.length - 1] += 2000;
-  
+      updatedTimes.length = 0; // Clear the recorded times array
+    
       // Update displayed time to match the new adjusted time
-      setTimerView(formatTime(updatedTimes[updatedTimes.length - 1]));
+      setTimerView('00:00.00');
 
-      // Recalculate ao5 when pressed
-      removeMinAndMax(updatedTimes);
+      setSolveNumber(0); // Reset the solve number
   
       return updatedTimes; // Return the updated array
     });
@@ -154,6 +150,20 @@ const App = () => {
     let lastFiveTimes = times.slice(-5); // Get last 5 recorded times
     let max = Math.max(...lastFiveTimes);
     let min = Math.min(...lastFiveTimes);
+
+    if (times.length >= 12) {
+      let lastTwelveTimes = times.slice(-12); // Get last 12 recorded times
+      let max = Math.max(...lastTwelveTimes);
+      let min = Math.min(...lastTwelveTimes);
+
+      let filteredTimes = lastTwelveTimes.filter(time => time !== max && time !== min);
+
+      if (filteredTimes.length === 10) { // Should always be 10 values left
+        let sum = filteredTimes.reduce((acc, time) => acc + time, 0);
+        setAo12(formatTime(sum / 10)); // Divide by 10, since 2 values were removed
+      }
+    }
+
   
     let filteredTimes = lastFiveTimes.filter(time => time !== max && time !== min);
   
@@ -242,7 +252,7 @@ const App = () => {
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
               <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
-              <Text style={styles.timeDescriptions}>ao12: --</Text>
+              <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
           </View>
 
 
@@ -273,14 +283,14 @@ const App = () => {
               if (cubingTimeStarted) {
                 doNothing();
               } else if (sessionStarted) {
-                addTwoSecondsPressed();
+                restartSessionPressed();
               } else {
                 doNothing();
               }
             }}
                 >
               <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
-                <Text style={styles.addedTime}>+2</Text>
+                <Image source={refreshIcon} style={styles.home}></Image>
               </View>
             </TouchableOpacity>
           </View>
