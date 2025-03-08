@@ -4,6 +4,7 @@ import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert } 
 import trashIcon from './assets/trash.png';
 import homeIcon from './assets/home2.png';
 import refreshIcon from './assets/refresh.png';
+import settingIcon from './assets/setting.png';
 
 const App = () => {
   // State variables
@@ -148,30 +149,38 @@ const App = () => {
     if (times.length < 5) return; // Ensure at least 5 solves before computing ao5
   
     let lastFiveTimes = times.slice(-5); // Get last 5 recorded times
-    let max = Math.max(...lastFiveTimes);
-    let min = Math.min(...lastFiveTimes);
-
-    if (times.length >= 12) {
-      let lastTwelveTimes = times.slice(-12); // Get last 12 recorded times
-      let max = Math.max(...lastTwelveTimes);
-      let min = Math.min(...lastTwelveTimes);
-
-      let filteredTimes = lastTwelveTimes.filter(time => time !== max && time !== min);
-
-      if (filteredTimes.length === 10) { // Should always be 10 values left
-        let sum = filteredTimes.reduce((acc, time) => acc + time, 0);
-        setAo12(formatTime(sum / 10)); // Divide by 10, since 2 values were removed
-      }
+    let max5 = Math.max(...lastFiveTimes);
+    let min5 = Math.min(...lastFiveTimes);
+    
+    let filteredTimes5 = lastFiveTimes.filter(time => time !== max5 && time !== min5);
+  
+    if (filteredTimes5.length === 3) { // Should always be 3 values left
+      let sum5 = filteredTimes5.reduce((acc, time) => acc + time, 0);
+      setAo5(formatTime(sum5 / 3)); // Divide by 3, since 2 values were removed
     }
-
   
-    let filteredTimes = lastFiveTimes.filter(time => time !== max && time !== min);
+    if (times.length < 12) return; // Ensure at least 12 solves before computing ao12
   
-    if (filteredTimes.length === 3) { // Should always be 3 values left
-      let sum = filteredTimes.reduce((acc, time) => acc + time, 0);
-      setAo5(formatTime(sum / 3)); // Divide by 3, since 2 values were removed
+    let lastTwelveTimes = times.slice(-12); // Get last 12 recorded times
+    let max12 = Math.max(...lastTwelveTimes);
+    let min12 = Math.min(...lastTwelveTimes);
+  
+    let filteredTimes12 = lastTwelveTimes.filter(time => time !== max12 && time !== min12);
+  
+    // Ensure we only remove the first occurrence of max and min, keeping the correct count
+    if (filteredTimes12.length > 10) {
+      filteredTimes12.splice(filteredTimes12.indexOf(max12), 1);
+    }
+    if (filteredTimes12.length > 10) {
+      filteredTimes12.splice(filteredTimes12.indexOf(min12), 1);
+    }
+  
+    if (filteredTimes12.length === 10) { // Should always be 10 values left
+      let sum12 = filteredTimes12.reduce((acc, time) => acc + time, 0);
+      setAo12(formatTime(sum12 / 10)); // Divide by 10, since 2 values were removed
     }
   };
+  
   
   
 
@@ -250,7 +259,7 @@ const App = () => {
           </View>
           <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
               <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
-              <Text style={styles.timeDescriptions}>Mean: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
+              <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
               <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
           </View>
@@ -260,7 +269,7 @@ const App = () => {
 
             <TouchableOpacity>
                 <View style={[styles.homeWrapper, { opacity: isVisible ? 1: 0 }]}>
-                 <Image source={homeIcon} style={styles.home}></Image>
+                 <Image source={settingIcon} style={styles.home}></Image>
                </View>
             </TouchableOpacity>
             
