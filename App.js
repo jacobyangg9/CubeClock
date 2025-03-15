@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert } from 'react-native';
 
 import trashIcon from './assets/bin.png';
-import homeIcon from './assets/home2.png';
 import refreshIcon from './assets/refresh.png';
 import settingIcon from './assets/setting.png';
 
