@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated } from 'react-native';
+import styles from './styles';
+
 
 import trashIcon from './assets/bin.png';
 import refreshIcon from './assets/refresh.png';
 import settingIcon from './assets/setting.png';
 
-const App = () => {
+
+const App = ( {navigation} ) => {
   // State variables
   const [timerView, setTimerView] = useState('00:00.00'); // Displayed timer value
   const [cubingTimeStarted, setCubingTimeStarted] = useState(false); // Indicates if the timer is running
@@ -28,6 +31,8 @@ const App = () => {
 
   const [ao5, setAo5] = useState(); // State to store the average of 5 times
   const [ao12, setAo12] = useState(); // State to store the average of 12 times
+
+  const [settingsVisible, setSettingsVisible] = useState(false); // State to control the visibility of the settings view
 
   // Function to start the timer
   const startCubingTimer = () => {
@@ -180,7 +185,17 @@ const App = () => {
     }
   };
   
-  
+  // Function to display the settings view
+  const displaySettings = () => {
+    if (!settingsVisible) {
+      setSettingsVisible(true); // Hide the settings view
+      console.log(settingsVisible);
+
+    } else if (settingsVisible) {
+      setSettingsVisible(false); // Show the settings view
+    }
+    
+  }
   
 
   // useEffect hook to update average ltime when recordedTimes changes
@@ -242,189 +257,78 @@ const App = () => {
    
   
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
-        style={{ width: '100%', flex: 1 }}
-      >
-        <View style={styles.scrambleWrapper}>
-          <Text style={[styles.scrambleText, { opacity: isVisible ? 1 : 0 }]}>{generateScramble()}</Text>
+      <SafeAreaView style={styles.container}>
+        <View style={[styles.settings, { opacity: settingsVisible ? 1 : 0 }]}>
+          <View style={styles.settingsHeaderWrapper}>
+            <Text style={styles.settingsHeaderText}>Settings</Text>
+            <TouchableOpacity onPress={displaySettings} style={styles.settingsDone}>
+              <Text style={styles.settingsDoneText}>Done</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.startTimer}>
-          <View style={styles.timerWrapper}>
-            <View style={{ width: '90%', alignItems: 'center' }}>
-              <Text style={styles.timerText}>{timerView}</Text>
+        <TouchableOpacity
+          onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
+          style={{ width: '100%', flex: 1 }}
+        >
+          <View style={styles.scrambleWrapper}>
+            <Text style={[styles.scrambleText, { opacity: isVisible ? 1 : 0 }]}>{generateScramble()}</Text>
+          </View>
+          <View style={styles.startTimer}>
+            <View style={styles.timerWrapper}>
+              <View style={{ width: '90%', alignItems: 'center' }}>
+                <Text style={styles.timerText}>{timerView}</Text>
+              </View>
+            </View>
+            <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
+                <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
+                <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
+                <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
+                <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
+            </View>
+
+
+            <View style={styles.buttonWrapper}>
+              <TouchableOpacity onPress={displaySettings}>
+                  <View style={[styles.homeWrapper, { opacity: isVisible ? 1: 0 }]}>
+                  <Image source={settingIcon} style={styles.home}></Image>
+                </View>
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPressIn={() => {
+                if (cubingTimeStarted) {
+                  doNothing();
+                } else if (sessionStarted) {
+                  deleteTimePressed();
+                } else {
+                  doNothing();
+                }
+              }}
+              >
+                <View style={[styles.trashWrapper, { opacity: isVisible ? 1 : 0 }]}>
+                  <Image source={trashIcon} style={styles.trash}></Image>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {
+                if (cubingTimeStarted) {
+                  doNothing();
+                } else if (sessionStarted) {
+                  restartSessionPressed();
+                } else {
+                  doNothing();
+                }
+              }}
+                  >
+                <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
+                  <Image source={refreshIcon} style={styles.home}></Image>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
-              <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
-              <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
-              <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
-              <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
-          </View>
-
-
-          <View style={styles.buttonWrapper}>
-
-            <TouchableOpacity>
-                <View style={[styles.homeWrapper, { opacity: isVisible ? 1: 0 }]}>
-                 <Image source={settingIcon} style={styles.home}></Image>
-               </View>
-            </TouchableOpacity>
-            
-            <TouchableOpacity onPressIn={() => {
-              if (cubingTimeStarted) {
-                doNothing();
-              } else if (sessionStarted) {
-                deleteTimePressed();
-              } else {
-                doNothing();
-              }
-            }}
-            >
-              <View style={[styles.trashWrapper, { opacity: isVisible ? 1 : 0 }]}>
-                <Image source={trashIcon} style={styles.trash}></Image>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => {
-              if (cubingTimeStarted) {
-                doNothing();
-              } else if (sessionStarted) {
-                restartSessionPressed();
-              } else {
-                doNothing();
-              }
-            }}
-                >
-              <View style={[styles.addedTimeWrapper, { opacity: isVisible ? 1: 0 }]}>
-                <Image source={refreshIcon} style={styles.home}></Image>
-              </View>
-            </TouchableOpacity>
-          </View>
-
-
-          
-        </View>
-      </TouchableOpacity>
-    </SafeAreaView>
+        </TouchableOpacity>
+      </SafeAreaView>
+    
   );
 };
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, // Takes up the full height of the screen
-    backgroundColor: '#fff', // White background for the app
-    alignItems: 'center', // Centers content horizontally
-    justifyContent: 'center', // Centers content vertically
-  },
-  startTimer: {
-    backgroundColor: 'white', // White background for the main timer view
-    width: '100%', // Full width of the screen
-    height: '100%', // Full height of the screen
-    zIndex: 0, // Ensures the timer view is behind other elements if needed
-  },
-  timerWrapper: {
-    alignItems: 'center', // Centers the timer horizontally
-    justifyContent: 'center', // Centers the timer vertically
-    flex: 1, // Takes up available space and ensures centering
-    width: '100%', // Ensures it spans the full width
-    marginTop: '50%', // Adjust this value as needed
-    paddingBottom: '10%', // Adjust if necessary
-  },
-
-  timerText: {
-    zIndex: 500, // Ensures the timer text is on top of other elements
-    fontSize: 75, // Large font size for the timer text
-    fontFamily: 'System', // font for the timer text
-    fontVariant: ['tabular-nums'], // Ensures digits take up equal space
-    color: 'black',
-  },
-  timeDescriptions: {
-    fontSize: 25, // Font size for the descriptive stats
-    fontFamily: 'System', // font for the descriptive stats
-  },
-  timeDescriptionsWrapper: {
-    alignItems: 'center', // Centers the stats text horizontally
-    marginBottom: '60%', // Adds margin at the bottom for spacing
-  },
-  scrambleWrapper: {
-    top: 70, // Adjust the position from the top as needed
-    position: 'absolute',
-    width: '90%', // Adjust width to be responsive
-    alignSelf: 'center', // Centers the scramble wrapper horizontally
-    justifyContent: 'center',
-    alignItems: 'center', // Centers text within the wrapper
-    zIndex: 5,
-},
-
-  scrambleText: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
-
-  trash: {
-    width: 35,
-    height: 35,
-  },
-
-  trashWrapper: {
-    backgroundColor: 'hsl(0 0% 92%)',
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    textAlign: 'center',
-    borderRadius: 40,
-    alignItems: 'center',
-    bottom: 30,
-    zIndex: 100,
-    marginHorizontal: 20,
-  },
-
-  home: {
-    width: 35, 
-    height: 35,
-  },
-
-  homeWrapper: {
-    backgroundColor: 'hsl(0 0% 92%)',
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    textAlign: 'center',
-    borderRadius: 40,
-    alignItems: 'center',
-    bottom: 30,
-    zIndex: 100,
-  },
-
-  buttonWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    
-  },
-
-addedTimeWrapper: {
-  backgroundColor: 'hsl(0 0% 92%)',
-  width: 60,
-  height: 60,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 40,
-  bottom: 30, // Keep it at the bottom
-  zIndex: 100,
-},
-
-
-  addedTime: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  }
-
-});
 
 export default App;
