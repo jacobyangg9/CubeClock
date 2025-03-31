@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated } from 'react-native';
 import styles from './styles';
+import Settings from './settings';
 
 
 import trashIcon from './assets/bin.png';
@@ -8,7 +9,7 @@ import refreshIcon from './assets/refresh.png';
 import settingIcon from './assets/setting.png';
 
 
-const App = ( {navigation} ) => {
+const App = () => {
   // State variables
   const [timerView, setTimerView] = useState('00:00.00'); // Displayed timer value
   const [cubingTimeStarted, setCubingTimeStarted] = useState(false); // Indicates if the timer is running
@@ -258,14 +259,7 @@ const App = ( {navigation} ) => {
   
   return (
       <SafeAreaView style={styles.container}>
-        <View style={[styles.settings, { opacity: settingsVisible ? 1 : 0 }]}>
-          <View style={styles.settingsHeaderWrapper}>
-            <Text style={styles.settingsHeaderText}>Settings</Text>
-            <TouchableOpacity onPress={displaySettings} style={styles.settingsDone}>
-              <Text style={styles.settingsDoneText}>Done</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Settings settingsVisible={settingsVisible} displaySettings={displaySettings}/>
         <TouchableOpacity
           onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
           style={{ width: '100%', flex: 1 }}

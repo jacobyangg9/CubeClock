@@ -111,18 +111,25 @@ const styles = StyleSheet.create({
     color: 'hsl(208 100% 50%)',
     fontSize: 20,
     fontWeight: 'bold',
+    left: '500%',
   },
   settingsHeaderWrapper: {
     top: '3%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
   },
   settingsHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
+    left: '50%',
+    transform: 'translateX(-40%)',
   },
+
+  settingsHeaderLine: {
+    width: '100%',
+    height: 2.5,
+    backgroundColor: 'hsl(0 0% 90%)',
+    top: '5%',
+  }
 });
 
 export default styles;
