@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
   settingsHeaderWrapper: {
     top: '3%',
     flexDirection: 'row',
+    backgroundColor: 'white',
+    position: 'fixed',
   },
   settingsHeaderText: {
     fontSize: 20,

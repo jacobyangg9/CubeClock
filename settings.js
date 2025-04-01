@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated, Switch } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated, Switch, ScrollView } from 'react-native';
 import styles from './styles';
 
 const Settings = ({settingsVisible, displaySettings}) => {
@@ -19,6 +19,8 @@ const Settings = ({settingsVisible, displaySettings}) => {
         <View style={[styles.settings, { opacity: settingsVisible ? 1 : 0, pointerEvents: settingsVisible ? 'auto' : 'none' }]}
               pointerEvents={settingsVisible ? 'auto' : 'none'}
         >
+          
+          <ScrollView>
           <View style={styles.settingsHeaderWrapper} >
             <Text style={styles.settingsHeaderText}>Settings</Text>
             <TouchableOpacity onPress={displaySettings} style={styles.settingsDoneButton}>
@@ -27,6 +29,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
           </View>
           <View style={styles.settingsHeaderLine}></View>
 
+          
           <Text style={styles.settingPropertyText}>DISPLAY</Text>
 
           <View style={styles.settingsDisplayWrapper}>
@@ -117,14 +120,17 @@ const Settings = ({settingsVisible, displaySettings}) => {
             <View style={styles.settingsBodyLine}></View>
 
 
-            <View style={styles.settingsBodyWrapper}>
+            <View style={[styles.settingsBodyWrapper, { marginBottom: '20%' }]}>
               <Text style={styles.settingsBodyText}>Best Time</Text>
               <Switch
                 value={isMinimumEnabled}
                 onValueChange={setIsMinimumEnabled}
               ></Switch>
             </View>
+            
           </View>
+
+          </ScrollView>
 
         </View>
     )
