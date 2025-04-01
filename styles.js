@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: 'hsl(208 100% 50%)',
     fontSize: 20,
     fontWeight: 'bold',
-    left: '500%',
+    left: '0%',
   },
   settingsHeaderWrapper: {
     top: '3%',
@@ -162,7 +162,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'hsl(0 0% 90%)',
     top: '8%',
     left: '10%',
-  }
+  },
+
+  settingsDoneButton: {
+    left: '61%',
+  },
   
 });
 

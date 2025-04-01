@@ -16,10 +16,12 @@ const Settings = ({settingsVisible, displaySettings}) => {
 
 
     return (
-        <View style={[styles.settings, { opacity: settingsVisible ? 1 : 0 }]}>
-          <View style={styles.settingsHeaderWrapper}>
+        <View style={[styles.settings, { opacity: settingsVisible ? 1 : 0, pointerEvents: settingsVisible ? 'auto' : 'none' }]}
+              pointerEvents={settingsVisible ? 'auto' : 'none'}
+        >
+          <View style={styles.settingsHeaderWrapper} >
             <Text style={styles.settingsHeaderText}>Settings</Text>
-            <TouchableOpacity onPress={displaySettings}>
+            <TouchableOpacity onPress={displaySettings} style={styles.settingsDoneButton}>
               <Text style={styles.settingsDoneText}>Done</Text>
             </TouchableOpacity>
           </View>

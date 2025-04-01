@@ -191,7 +191,6 @@ const App = () => {
   const displaySettings = () => {
     if (!settingsVisible) {
       setSettingsVisible(true); // Hide the settings view
-      console.log(settingsVisible);
 
     } else if (settingsVisible) {
       setSettingsVisible(false); // Show the settings view
