@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated, Vibration } from 'react-native';
 import styles from './styles';
 import Settings from './settings';
 
@@ -38,6 +38,7 @@ const App = () => {
   // Function to start the timer
   const startCubingTimer = () => {
     if (!cubingTimeStarted) {
+      Vibration.vibrate(50); // Vibrate the device when the timer starts
       setCubingTimeStarted(true); // Mark the timer as started
       setCubingTimeStopped(false); // Ensure the timer is not in a stopped state
       startTimeRef.current = Date.now() - timeInMilliseconds.current; // Set the start time, accounting for any paused time

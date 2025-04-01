@@ -120,8 +120,7 @@ const styles = StyleSheet.create({
   settingsHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
-    left: '50%',
-    transform: 'translateX(-40%)',
+    left: '40%',
   },
 
   settingsHeaderLine: {
@@ -129,7 +128,42 @@ const styles = StyleSheet.create({
     height: 2.5,
     backgroundColor: 'hsl(0 0% 90%)',
     top: '5%',
+  },
+
+  settingsBodyWrapper: {
+    top: '5%',
+    flexDirection: 'row',
+    marginTop: '5%',
+    marginLeft: '10%',
+    justifyContent: 'space-between',
+    width: '78%',
+  },
+
+  settingsBodyText: {
+    fontWeight: 'bold',
+    top: '30%',
+  },
+
+  settingPropertyText: {
+    fontSize: 14,
+    marginLeft: '10%',
+    marginTop: '20%',
+    color: 'hsl(0 0% 50%)',
+    marginBottom: '-10%',
+  },
+
+  settingsDisplayWrapper: {
+    top: '2%',
+  },
+
+  settingsBodyLine: {
+    width: '80%',
+    height: 1.5,
+    backgroundColor: 'hsl(0 0% 90%)',
+    top: '8%',
+    left: '10%',
   }
+  
 });
 
 export default styles;
