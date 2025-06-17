@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   timeDescriptionsWrapper: {
     alignItems: 'center',
-    marginBottom: '60%',
+    marginBottom: '55%',
   },
   scrambleWrapper: {
     top: 70,

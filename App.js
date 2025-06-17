@@ -312,6 +312,9 @@ const App = () => {
 
                 <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
                 <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
+                <Text style={styles.timeDescriptions}>mo3: --</Text>
+                <Text style={styles.timeDescriptions}>Best: --</Text>
+                <Text style={styles.timeDescriptions}>Worst: --</Text>
             </View>
 
 
