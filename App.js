@@ -33,12 +33,25 @@ const App = () => {
   const [ao5, setAo5] = useState(); // State to store the average of 5 times
   const [ao12, setAo12] = useState(); // State to store the average of 12 times
 
+  // Props from other files
   const [settingsVisible, setSettingsVisible] = useState(false); // State to control the visibility of the settings view
+  
+  // Props from settings.js
+  const [isAverageEnabled, setIsAverageEnabled] = useState(true); // State to control if average time is enabled
+  const [isZenModeEnabled, setIsZenModeEnabled] = useState(false); // Toggle for Zen Mode
+  const [isUseInspectionEnabled, setIsUseInspectionEnabled] = useState(false); // Toggle for Use Inspection
+  const [isSolveNumberEnabled, setIsSolveNumberEnabled] = useState(true); // Toggle for Solve Number
+  const [isA5Enabled, setIsA5Enabled] = useState(true); // Toggle for ao5
+  const [isA12Enabled, setIsA12Enabled] = useState(true); // Toggle for ao12
+  const [ism3Enabled, setIsm3Enabled] = useState(false); // Toggle for mo3
+  const [isMaximumEnabled, setIsMaximumEnabled] = useState(false); // Toggle for Slowest Time
+  const [isMinimumEnabled, setIsMinimumEnabled] = useState(false); // Toggle for Best Time
+
 
   // Function to start the timer
   const startCubingTimer = () => {
     if (!cubingTimeStarted) {
-      Vibration.vibrate(50); // Vibrate the device when the timer starts
+      Vibration.vibrate(100);
       setCubingTimeStarted(true); // Mark the timer as started
       setCubingTimeStopped(false); // Ensure the timer is not in a stopped state
       startTimeRef.current = Date.now() - timeInMilliseconds.current; // Set the start time, accounting for any paused time
@@ -259,7 +272,27 @@ const App = () => {
   
   return (
       <SafeAreaView style={styles.container}>
-        <Settings settingsVisible={settingsVisible} displaySettings={displaySettings}/>
+        <Settings settingsVisible={settingsVisible} 
+                  displaySettings={displaySettings} 
+                  isAverageEnabled={isAverageEnabled}
+                  setIsAverageEnabled={setIsAverageEnabled}
+                  isZenModeEnabled={isZenModeEnabled}
+                  setIsZenModeEnabled={setIsZenModeEnabled}
+                  isUseInspectionEnabled={isUseInspectionEnabled}
+                  setIsUseInspectionEnabled={setIsUseInspectionEnabled}
+                  isSolveNumberEnabled={isSolveNumberEnabled}
+                  setIsSolveNumberEnabled={setIsSolveNumberEnabled}
+                  isA5Enabled={isA5Enabled}
+                  setIsA5Enabled={setIsA5Enabled}
+                  isA12Enabled={isA12Enabled}
+                  setIsA12Enabled={setIsA12Enabled}
+                  ism3Enabled={ism3Enabled}
+                  setIsm3Enabled={setIsm3Enabled}
+                  isMaximumEnabled={isMaximumEnabled}
+                  setIsMaximumEnabled={setIsMaximumEnabled}
+                  isMinimumEnabled={isMinimumEnabled}
+                  setIsMinimumEnabled={setIsMinimumEnabled}                  
+        />
         <TouchableOpacity
           onPress={cubingTimeStarted ? stopCubingTimer : startCubingTimer} 
           style={{ width: '100%', flex: 1 }}
@@ -275,7 +308,8 @@ const App = () => {
             </View>
             <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
                 <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
-                <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>
+                {isAverageEnabled && <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>}
+
                 <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
                 <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
             </View>

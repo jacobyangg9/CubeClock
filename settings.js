@@ -2,17 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Image, Alert, Animated, Switch, ScrollView } from 'react-native';
 import styles from './styles';
 
-const Settings = ({settingsVisible, displaySettings}) => {
 
-    const [isZenModeEnabled, setIsZenModeEnabled] = useState(false); // Toggle for Zen Mode
-    const [isUseInspectionEnabled, setIsUseInspectionEnabled] = useState(false); // Toggle for Use Inspection
-    const [isSolveNumberEnabled, setIsSolveNumberEnabled] = useState(true); // Toggle for Solve Number
-    const [isAverageEnabled, setIsAverageEnabled] = useState(true); // Toggle for Average
-    const [isA5Enabled, setIsA5Enabled] = useState(true); // Toggle for ao5
-    const [isA12Enabled, setIsA12Enabled] = useState(true); // Toggle for ao12
-    const [ism3Enabled, setIsm3Enabled] = useState(false); // Toggle for mo3
-    const [isMaximumEnabled, setIsMaximumEnabled] = useState(false); // Toggle for Slowest Time
-    const [isMinimumEnabled, setIsMinimumEnabled] = useState(false); // Toggle for Best Time
+
+const Settings = ({settingsVisible, displaySettings, isAverageEnabled, setIsAverageEnabled, isA12Enabled, setIsA12Enabled, isZenModeEnabled, setIsZenModeEnabled, isA5Enabled, setIsA5Enabled, isMaximumEnabled, setIsMaximumEnabled, isUseInspectionEnabled, setIsUseInspectionEnabled, ism3Enabled, setIsm3Enabled, isMinimumEnabled, setIsMinimumEnabled}) => {
+
+    
+    // Function to do nothing
+    const doAbsolutelyNothing = () => {
+      // This function intentionally does nothing
+    }
+
+    // Use effect function to toggle if average is enabled
+    useEffect(() => {
+      console.log(`Is average enabled? ${isAverageEnabled}`);
+    }, [isAverageEnabled]);
+
 
 
     return (
@@ -38,6 +42,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isZenModeEnabled}
                 onValueChange={setIsZenModeEnabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
 
@@ -48,27 +53,17 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isUseInspectionEnabled}
                 onValueChange={setIsUseInspectionEnabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
 
             <View style={styles.settingsBodyLine}></View>
-
-
-            <View style={styles.settingsBodyWrapper}>
-              <Text style={styles.settingsBodyText}>Solve Number</Text>
-              <Switch
-                value={isSolveNumberEnabled}
-                onValueChange={setIsSolveNumberEnabled}
-              ></Switch>
-            </View>
-
-            <View style={styles.settingsBodyLine}></View>
-
 
             <View style={styles.settingsBodyWrapper}>
               <Text style={styles.settingsBodyText}>Average</Text>
               <Switch
                 value={isAverageEnabled}
+                style={styles.settingsSwitchElements}
                 onValueChange={setIsAverageEnabled}
               ></Switch>
             </View>
@@ -81,6 +76,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isA5Enabled}
                 onValueChange={setIsA5Enabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
 
@@ -92,6 +88,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isA12Enabled}
                 onValueChange={setIsA12Enabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
 
@@ -103,6 +100,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={ism3Enabled}
                 onValueChange={setIsm3Enabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
             
@@ -114,6 +112,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isMaximumEnabled}
                 onValueChange={setIsMaximumEnabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
 
@@ -125,6 +124,7 @@ const Settings = ({settingsVisible, displaySettings}) => {
               <Switch
                 value={isMinimumEnabled}
                 onValueChange={setIsMinimumEnabled}
+                style={styles.settingsSwitchElements}
               ></Switch>
             </View>
             
