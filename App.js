@@ -33,6 +33,8 @@ const App = () => {
   const [ao5, setAo5] = useState(); // State to store the average of 5 times
   const [ao12, setAo12] = useState(); // State to store the average of 12 times
 
+  const slowestTime = useRef(0); // Ref to store the slowest time
+
   // Props from other files
   const [settingsVisible, setSettingsVisible] = useState(false); // State to control the visibility of the settings view
   
@@ -210,14 +212,23 @@ const App = () => {
     }
     
   }
+
+  // Function to calculate the slowest time
+  const calculateSlowestTime = () => {
+    const maxTime = Math.max(...recordedTimes); // Get the maximum time from recorded times
+    return formatTime(maxTime); // Format and set the slowest time
+  }
   
 
-  // useEffect hook to update average ltime when recordedTimes changes
+  // useEffect hook to update average time and other attributes when recordedTimes changes
   useEffect(() => { 
     if (recordedTimes.length > 0) {
       const sum = recordedTimes.reduce((acc, time) => acc + time, 0); // Sum the recorded times
       const newAverage = sum / recordedTimes.length; // Calculate new average time
-      setAverageTime(newAverage); // Update state
+      setAverageTime(newAverage); // Update state for average time
+      slowestTime.current = calculateSlowestTime(); // Calculate and set the slowest time
+      
+      console.log(`Slowest time: ${slowestTime.current}`); // Log the slowest time
   
       console.log(`Updated averageTime: ${newAverage}`); // Log the correct updated average
     } else {
@@ -313,8 +324,8 @@ const App = () => {
                 <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
                 <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
                 <Text style={styles.timeDescriptions}>mo3: --</Text>
-                <Text style={styles.timeDescriptions}>Best: --</Text>
-                <Text style={styles.timeDescriptions}>Worst: --</Text>
+                <Text style={styles.timeDescriptions}>Best: </Text>
+                <Text style={styles.timeDescriptions}>Worst: {sessionStarted ? slowestTime.current : '--'}</Text>
             </View>
 
 
