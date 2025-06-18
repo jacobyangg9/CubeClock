@@ -32,8 +32,10 @@ const App = () => {
 
   const [ao5, setAo5] = useState(); // State to store the average of 5 times
   const [ao12, setAo12] = useState(); // State to store the average of 12 times
+  const [mo3, setMo3] = useState(); // State to store the mo3 (mean of 3)
 
   const slowestTime = useRef(0); // Ref to store the slowest time
+  const fastestTime = useRef(0); // Ref to store the fastest time
 
   // Props from other files
   const [settingsVisible, setSettingsVisible] = useState(false); // State to control the visibility of the settings view
@@ -201,6 +203,17 @@ const App = () => {
       setAo12(formatTime(sum12 / 10)); // Divide by 10, since 2 values were removed
     }
   };
+
+  // Function to calculat the mo3
+  const calculateMo3 = () => {
+    if (recordedTimes.length < 3) {
+      return '--'; // Not enough times to calculate mo3
+    } else if (recordedTimes.length >= 3) {
+      let lastThreeTimes = recordedTimes.slice(-3); // Get the last 3 recorded times
+      setMo3(formatTime(lastThreeTimes.reduce((acc, time) => acc + time, 0) / 3)); // Calculate and set the mo3
+      console.log(`mo3: ${mo3}`); // Log the mo3 value
+    }
+  }
   
   // Function to display the settings view
   const displaySettings = () => {
@@ -218,6 +231,12 @@ const App = () => {
     const maxTime = Math.max(...recordedTimes); // Get the maximum time from recorded times
     return formatTime(maxTime); // Format and set the slowest time
   }
+
+  // Function to calculate the fastest time
+  const calculateFastestTime = () => {
+    const minTime = Math.min(...recordedTimes); // Get the minimum time from recorded times
+    return formatTime(minTime); // Format and set the fastest time
+  }
   
 
   // useEffect hook to update average time and other attributes when recordedTimes changes
@@ -227,6 +246,7 @@ const App = () => {
       const newAverage = sum / recordedTimes.length; // Calculate new average time
       setAverageTime(newAverage); // Update state for average time
       slowestTime.current = calculateSlowestTime(); // Calculate and set the slowest time
+      fastestTime.current = calculateFastestTime(); // Calculate and set the fastest time
       
       console.log(`Slowest time: ${slowestTime.current}`); // Log the slowest time
   
@@ -251,7 +271,13 @@ const App = () => {
     if (sessionStarted && recordedTimes.length >= 5) {
       removeMinAndMax(recordedTimes);
     }
-  }, [recordedTimes]); // Runs whenever recordedTimes updates
+  }, [recordedTimes]); // Runs whenever recordedTimes updates to activate ao5
+
+  useEffect(() => {
+    if (sessionStarted && recordedTimes.length >= 3) {
+      calculateMo3(); // Calculate mo3 when there are at least 3 recorded times
+    }
+  })
   
 
   // Function to generate a scramble sequence
@@ -323,8 +349,8 @@ const App = () => {
 
                 <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
                 <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
-                <Text style={styles.timeDescriptions}>mo3: --</Text>
-                <Text style={styles.timeDescriptions}>Best: </Text>
+                <Text style={styles.timeDescriptions}>mo3: {solveNumber >=3 ? mo3 : '--'}</Text>
+                <Text style={styles.timeDescriptions}>Best: {sessionStarted ? fastestTime.current : '--'}</Text>
                 <Text style={styles.timeDescriptions}>Worst: {sessionStarted ? slowestTime.current : '--'}</Text>
             </View>
 

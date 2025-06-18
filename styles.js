@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     paddingBottom: '10%',
   },
   timerText: {
-    zIndex: 500,
-    fontSize: 75,
+    zIndex: 5,
+    fontSize: 85,
     fontFamily: 'System',
     fontVariant: ['tabular-nums'],
     color: 'black',
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
   },
   timeDescriptionsWrapper: {
     alignItems: 'center',
-    marginBottom: '55%',
+    marginTop: '-5%',
+    marginBottom: '50%',
   },
   scrambleWrapper: {
     top: 70,
