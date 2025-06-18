@@ -4,7 +4,7 @@ import styles from './styles';
 
 
 
-const Settings = ({settingsVisible, displaySettings, isAverageEnabled, setIsAverageEnabled, isA12Enabled, setIsA12Enabled, isZenModeEnabled, setIsZenModeEnabled, isA5Enabled, setIsA5Enabled, isMaximumEnabled, setIsMaximumEnabled, isUseInspectionEnabled, setIsUseInspectionEnabled, ism3Enabled, setIsm3Enabled, isMinimumEnabled, setIsMinimumEnabled}) => {
+const Settings = ({settingsVisible, displaySettings, isAverageEnabled, setIsAverageEnabled, isA12Enabled, setIsA12Enabled,isA5Enabled, setIsA5Enabled, isMaximumEnabled, setIsMaximumEnabled, isUseInspectionEnabled, setIsUseInspectionEnabled, ism3Enabled, setIsm3Enabled, isMinimumEnabled, setIsMinimumEnabled}) => {
 
     
     // Function to do nothing
@@ -37,18 +37,8 @@ const Settings = ({settingsVisible, displaySettings, isAverageEnabled, setIsAver
           <Text style={styles.settingPropertyText}>DISPLAY</Text>
 
           <View style={styles.settingsDisplayWrapper}>
-            <View style={styles.settingsBodyWrapper}>
-              <Text style={styles.settingsBodyText}>Zen Mode</Text>
-              <Switch
-                value={isZenModeEnabled}
-                onValueChange={setIsZenModeEnabled}
-                style={styles.settingsSwitchElements}
-              ></Switch>
-            </View>
-
-            <View style={styles.settingsBodyLine}></View>
-
-            <View style={styles.settingsBodyWrapper}>
+            
+            <View style={[styles.settingsBodyWrapper, { marginTop: '5%' }]}>
               <Text style={styles.settingsBodyText}>Use Inspection</Text>
               <Switch
                 value={isUseInspectionEnabled}

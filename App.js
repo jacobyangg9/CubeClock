@@ -68,6 +68,8 @@ const App = () => {
       if (isVisible) {
         setIsVisible(false); // Hide the stats view when the timer starts
       }
+
+      
     }
   };
   
@@ -345,13 +347,13 @@ const App = () => {
             </View>
             <View style={[styles.timeDescriptionsWrapper, { opacity: isVisible ? 1 : 0 }]}> 
                 <Text style={styles.timeDescriptions}>Solve: {solveNumber}/{solveNumber}</Text>
+                
                 {isAverageEnabled && <Text style={styles.timeDescriptions}>Average: {sessionStarted ? formatTime(averageTime) : '--'}</Text>}
-
-                <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>
-                <Text style={styles.timeDescriptions}>ao12: {solveNumber >=12 ? ao12 : '--'}</Text>
-                <Text style={styles.timeDescriptions}>mo3: {solveNumber >=3 ? mo3 : '--'}</Text>
-                <Text style={styles.timeDescriptions}>Best: {sessionStarted ? fastestTime.current : '--'}</Text>
-                <Text style={styles.timeDescriptions}>Worst: {sessionStarted ? slowestTime.current : '--'}</Text>
+                {isA5Enabled && <Text style={styles.timeDescriptions}>ao5: {solveNumber >= 5 ? ao5 : '--'}</Text>}
+                {isA12Enabled && <Text style={styles.timeDescriptions}>ao12: {solveNumber >= 12 ? ao12 : '--'}</Text>}
+                {ism3Enabled && <Text style={styles.timeDescriptions}>mo3: {solveNumber >= 3 ? mo3 : '--'}</Text>}
+                {isMinimumEnabled && <Text style={styles.timeDescriptions}>Best: {sessionStarted ? fastestTime.current : '--'}</Text>}
+                {isMaximumEnabled && <Text style={styles.timeDescriptions}>Slowest: {sessionStarted ? slowestTime.current : '--'}</Text>}
             </View>
 
 

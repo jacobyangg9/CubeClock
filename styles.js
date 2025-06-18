@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 
   settingsBodyText: {
     fontWeight: 'bold',
-    top: '50%',
+    top: '40%',
   },
 
   settingsSwitchElements: {
